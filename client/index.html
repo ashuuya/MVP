@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" style="height: 100%">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
+      crossorigin="anonymous"
+    />
+    <title>Vite App</title>
+  </head>
+  <body>
+    <div class="container">
+      <header class="header">
+        <a
+          aria-current="page"
+          href="/"
+          class="router-link-active router-link-exact-active logo clear-link align-self-center"
+          data-v-0a6d81da=""
+          ><div class="logo">
+            <span class="logo-icon"></span
+            ><span data-v-f50702b0=""
+              >физическая культура <br data-v-f50702b0="" /><small
+                class="small"
+                data-v-f50702b0=""
+                >в ИРНИТУ</small
+              ></span
+            >
+          </div></a
+        >
+        <nav class="nav-container">
+          <ul class="nav-list">
+            <li class="nav-item">
+              <a
+                href="/"
+                class="router-link-active router-link-exact-active nav-link"
+                >все спортклубы</a
+              >
+            </li>
+            <li class="nav-item">
+              <a href="/faq" class="nav-link">вопрос-ответ</a>
+            </li>
+            <li class="nav-item">
+              <a href="/contacts" class="nav-link">контакты</a>
+            </li>
+          </ul>
+        </nav>
+        <div class="actions">
+          <button class="btn link uppercase auth-btn">Войти</button>
+        </div>
+      </header>
+    </div>
+
+    <div id="sidebar"></div>
+
+    <main class="main">
+      <div id="search">
+        <nav class="navbar">
+          <div class="container-fluid">
+            <form class="d-flex">
+              <input
+                class="form-control me-2"
+                type="search"
+                placeholder="Поиск"
+                aria-label="Поиск"
+              />
+              <button class="btn btn-outline-success" type="submit">
+                Поиск
+              </button>
+            </form>
+          </div>
+        </nav>
+      </div>
+
+      <div id="cards-list" class="cards-list">
+        <ul class="cards-list-ul"></ul>
+      </div>
+    </main>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+      crossorigin="anonymous"
+    ></script>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
