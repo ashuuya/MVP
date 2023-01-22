@@ -17,6 +17,26 @@ app.use(express.static(path.join(__dirname, "../client/dist")));
 app.use(bodyParser.json());
 app.use(cors());
 
+app.get("/api/auth", async (req, res) => {
+  try {
+    const connection = await stablishedConnection();
+    console.log(req.query);
+    if (req.query.type === "manager") {
+      const [rows] = await connection.query(
+        "SELECT * FROM managers WHERE id=2"
+      );
+      res.json(rows);
+    } else if (req.query.type === "student") {
+      const [rows] = await connection.query(
+        "SELECT * FROM students WHERE id=1"
+      );
+      res.json(rows);
+    }
+  } catch (error) {
+    console.log("Ошибка " + error);
+  }
+});
+
 app.get("/api/clubs", async (req, res) => {
   try {
     const connection = await stablishedConnection();
@@ -64,6 +84,8 @@ app.post("/api/studenttoclub", async (req, res) => {
    */
   let connection = null;
 
+  console.log(req.body);
+
   try {
     /* TODO:  1) через req.body получить доступ к id
               2) валидация для id (то, что он сущ и он нужного типа)
@@ -77,10 +99,10 @@ app.post("/api/studenttoclub", async (req, res) => {
 
     const connection = await stablishedConnection();
     const [rows] = await connection.query(
-      `SELECT fio FROM students WHERE id = ${studentId}`
+      `SELECT fio FROM students WHERE id = ${req.body.studentId}`
     );
-    res.json(rows);
     console.log(rows);
+    const fio = rows[0].fio;
 
     if (typeof formClubId !== "number")
       return res.send("formClubId must be number").status(400);
@@ -88,15 +110,43 @@ app.post("/api/studenttoclub", async (req, res) => {
       return res.send("formStudentId must be number").status(400);
 
     // TODO: сделать проверку на повторки
-    const sql = `INSERT INTO forms (id_clubs, id_students, creation_date, update_date, clubname, studname) VALUES (?,?,?,?,?,?)`;
+    const sql = `INSERT INTO forms (id_clubs, id_students, creation_date, update_date, clubname, studname, status) VALUES (?,?,?,?,?,?,?)`;
     const [data] = await connection.query(sql, [
       formClubId,
       formStudentId,
       new Date(Date.now()),
       new Date(Date.now()),
-      clubname,
-      studname,
+      "club",
+      fio,
+      "Подано",
     ]);
+    closeDbConnection(connection);
+    res.json({ status: "ok" }).status(200);
+  } catch (error) {
+    res.json({ status: "error" }).status(400);
+    console.log("Ошибка " + error);
+  } finally {
+    if (connection) closeDbConnection(connection);
+  }
+});
+
+app.post("/api/acceptform", async (req, res) => {
+  /**
+   * @type {mysql.Connection | null}
+   */
+  let connection = null;
+
+  try {
+    const formId = req.body.clubId;
+
+    const connection = await stablishedConnection();
+
+    if (typeof formId !== "number")
+      return res.send("formClubId must be number").status(400);
+
+    // TODO: сделать проверку на повторки
+    const sql = `UPDATE forms SET status="Принято" WHERE id = ${formId}`;
+    const [data] = await connection.query(sql);
     closeDbConnection(connection);
     res.json({ status: "ok" }).status(200);
   } catch (error) {

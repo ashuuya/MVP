@@ -49,15 +49,21 @@
         </nav>
         <div class="actions">
           <button class="btn link uppercase auth-btn">Войти</button>
+          <button class="btn link uppercase exit-btn">Выйти</button>
         </div>
       </header>
     </div>
 
-    <div id="sidebar"></div>
-
-    <main class="main">
+    <main class="main main-account">
+      <div id="sidebar" class="sidebar">
+        <ul class="list-group">
+          <li class="list-group-item"><a href="">Мой профиль</a></li>
+          <li class="list-group-item"><a href="">Мой клуб</a></li>
+          <li class="list-group-item"><a href="">Выйти из профиля</a></li>
+        </ul>
+      </div>
       <div id="forms-list" class="forms-list">
-        <ul class="forms-list-ul"></ul>
+        <ul class="forms-list-ul" style="list-style: none"></ul>
       </div>
     </main>
 
@@ -66,6 +72,6 @@
       integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
       crossorigin="anonymous"
     ></script>
-    <script type="module" src="/src/main.js"></script>
+    <script type="module" src="/src/personal_account.js"></script>
   </body>
 </html>

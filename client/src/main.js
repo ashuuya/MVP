@@ -1,4 +1,9 @@
 import "./styles/style.css";
+import {
+  addLoginEventListener,
+  addExitEventListener,
+  AUTH_KEY,
+} from "./auth.js";
 
 async function fetchClubs() {
   try {
@@ -55,15 +60,28 @@ function addApplyClubEventListeners(clubsData = []) {
     .querySelectorAll(".cards-list-li button")
     .forEach((button, index) => {
       button.addEventListener("click", () => {
-        applyClub(clubsData[index].id, 1);
+        const authData = JSON.parse(sessionStorage.getItem(AUTH_KEY));
+        if (authData.type !== "student") {
+          alert("Вы не студент!");
+          return;
+        }
+        console.log(authData);
+        applyClub(clubsData[index].id, authData.id);
+        alert("Заявка подана!");
       });
     });
 }
 
-async function main() {
+async function renderContent() {
   const clubsData = await fetchClubs();
   renderClubs(clubsData);
   addApplyClubEventListeners(clubsData);
+}
+
+async function main() {
+  renderContent();
+  addLoginEventListener();
+  addExitEventListener();
 }
 
 main();
