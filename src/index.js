@@ -20,10 +20,9 @@ app.use(cors());
 app.get("/api/auth", async (req, res) => {
   try {
     const connection = await stablishedConnection();
-    console.log(req.query);
     if (req.query.type === "manager") {
       const [rows] = await connection.query(
-        "SELECT * FROM managers WHERE id=2"
+        "SELECT * FROM managers WHERE id=1"
       );
       res.json(rows);
     } else if (req.query.type === "student") {
@@ -42,6 +41,18 @@ app.get("/api/clubs", async (req, res) => {
     const connection = await stablishedConnection();
     //TODO: написать запрос к БД через connection и вернуть пользователю через res.send
     const [rows] = await connection.query("SELECT * FROM clubs");
+    res.json(rows);
+  } catch (error) {
+    console.log("Ошибка " + error);
+  }
+});
+
+app.post("/api/searchclub", async (req, res) => {
+  try {
+    const connection = await stablishedConnection();
+    const [rows] = await connection.query(
+      `SELECT * FROM clubs WHERE title LIKE '%${req.body.searchValue}%'`
+    );
     res.json(rows);
   } catch (error) {
     console.log("Ошибка " + error);
@@ -78,6 +89,40 @@ app.get("/api/forms", async (req, res) => {
   }
 });
 
+app.post("/api/formstostudent", async (req, res) => {
+  try {
+    const connection = await stablishedConnection();
+    const [rows] = await connection.query(
+      `SELECT * FROM forms WHERE id_students = ${req.body.studentId}`
+    );
+    res.json(rows);
+  } catch (error) {
+    console.log("Ошибка " + error);
+  }
+});
+
+app.post("/api/getprofile", async (req, res) => {
+  try {
+    if (req.body.profileType == "1") {
+      const connection = await stablishedConnection();
+      const [rows] = await connection.query(
+        `SELECT * FROM managers WHERE id = ${req.body.profileId}`
+      );
+      console.log(rows);
+      res.json(rows[0]);
+    } else if (req.body.profileType == "0") {
+      const connection = await stablishedConnection();
+      const [rows] = await connection.query(
+        `SELECT * FROM students WHERE id = ${req.body.profileId}`
+      );
+      console.log(rows[0]);
+      res.json(rows[0]);
+    }
+  } catch (error) {
+    console.log("Ошибка " + error);
+  }
+});
+
 app.post("/api/studenttoclub", async (req, res) => {
   /**
    * @type {mysql.Connection | null}
@@ -101,7 +146,6 @@ app.post("/api/studenttoclub", async (req, res) => {
     const [rows] = await connection.query(
       `SELECT fio FROM students WHERE id = ${req.body.studentId}`
     );
-    console.log(rows);
     const fio = rows[0].fio;
 
     if (typeof formClubId !== "number")

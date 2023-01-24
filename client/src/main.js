@@ -16,6 +16,23 @@ async function fetchClubs() {
   }
 }
 
+async function searchClubs(searchValue) {
+  try {
+    const response = await fetch("http://localhost:3000/api/searchclub", {
+      method: "POST",
+      body: JSON.stringify({ searchValue: searchValue }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    if (!response.ok) throw new Error(response.statusText);
+    return response.json();
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+}
+
 async function applyClub(clubId, studentId) {
   try {
     const response = await fetch("http://localhost:3000/api/studenttoclub", {
@@ -35,6 +52,7 @@ async function applyClub(clubId, studentId) {
 
 function renderClubs(cardList = []) {
   const cardsContainerEl = document.querySelector(".cards-list-ul");
+  cardsContainerEl.innerHTML = "";
   for (const card of cardList) {
     cardsContainerEl.insertAdjacentHTML(
       "beforeend",
@@ -42,9 +60,11 @@ function renderClubs(cardList = []) {
         <li class="cards-list-li">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">${card.title}</h5>
+                    <h5 class="card-title"><h1>${card.title}</h1></h5>
                     <p class="card-text">
-                        ${card.description}
+                    <h2>Описание:</h2> ${card.description} <br>
+                    <h3>Ищем:</h3> ${card.skills}
+                    <h4>${card.schedule}</h4>
                     </p>
                     <button class="btn btn-primary float-end">Подать заявку</button>
                 </div>
@@ -61,7 +81,7 @@ function addApplyClubEventListeners(clubsData = []) {
     .forEach((button, index) => {
       button.addEventListener("click", () => {
         const authData = JSON.parse(sessionStorage.getItem(AUTH_KEY));
-        if (authData.type !== "student") {
+        if (authData.is_manager !== "0") {
           alert("Вы не студент!");
           return;
         }
@@ -72,10 +92,25 @@ function addApplyClubEventListeners(clubsData = []) {
     });
 }
 
+function addSearchEventListeners() {
+  document.getElementById("searchbtn").addEventListener("click", (event) => {
+    event.preventDefault();
+    const searchEl = document.getElementById("searchbar");
+    renderSearchContent(searchEl.value);
+  });
+}
+
+async function renderSearchContent(searchValue) {
+  const clubsData = await searchClubs(searchValue);
+  renderClubs(clubsData);
+  addApplyClubEventListeners(clubsData);
+}
+
 async function renderContent() {
   const clubsData = await fetchClubs();
   renderClubs(clubsData);
   addApplyClubEventListeners(clubsData);
+  addSearchEventListeners();
 }
 
 async function main() {

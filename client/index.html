@@ -9,7 +9,7 @@
       integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
       crossorigin="anonymous"
     />
-    <title>Vite App</title>
+    <title>Спортклубы</title>
   </head>
   <body>
     <div class="container">
@@ -40,17 +40,19 @@
               >
             </li>
             <li class="nav-item">
-              <a href="/faq" class="nav-link">вопрос-ответ</a>
+              <a href="/faq.html" class="nav-link">вопрос-ответ</a>
             </li>
             <li class="nav-item">
-              <a href="/contacts" class="nav-link">контакты</a>
+              <a href="/contacts.html" class="nav-link">контакты</a>
             </li>
           </ul>
         </nav>
         <div class="actions">
           <button class="btn link uppercase auth-btn">Войти</button>
           <button class="btn link uppercase exit-btn">Выйти</button>
-          <a href="/personal_account.html">Личный кабинет</a>
+          <a class="btn btn-primary" href="/personal_profile.html" role="button"
+            >Личный кабинет</a
+          >
         </div>
       </header>
     </div>
@@ -58,17 +60,23 @@
     <div id="sidebar"></div>
 
     <main class="main">
+      <h1 class="title page-title">Все спортклубы</h1>
       <div id="search">
         <nav class="navbar">
           <div class="container-fluid">
             <form class="d-flex">
               <input
+                id="searchbar"
                 class="form-control me-2"
                 type="search"
                 placeholder="Поиск"
                 aria-label="Поиск"
               />
-              <button class="btn btn-outline-success" type="submit">
+              <button
+                id="searchbtn"
+                class="btn btn-outline-success"
+                type="submit"
+              >
                 Поиск
               </button>
             </form>

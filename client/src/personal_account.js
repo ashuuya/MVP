@@ -5,9 +5,15 @@ import {
   AUTH_KEY,
 } from "./auth.js";
 
-async function fetchForms() {
+async function fetchForms(studentId) {
   try {
-    const response = await fetch("http://localhost:3000/api/forms");
+    const response = await fetch("http://localhost:3000/api/formstostudent", {
+      method: "POST",
+      body: JSON.stringify({ studentId: studentId }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
     if (!response.ok) throw new Error(response.statusText);
     return response.json();
   } catch (error) {
@@ -37,7 +43,7 @@ function renderForms(formList = []) {
   const cardsContainerEl = document.querySelector(".forms-list-ul");
   const authData = JSON.parse(sessionStorage.getItem(AUTH_KEY));
   for (const form of formList) {
-    if (authData.type == "manager") {
+    if (authData.is_manager == "1") {
       cardsContainerEl.insertAdjacentHTML(
         "beforeend",
         `
@@ -82,7 +88,7 @@ function addApplyFormEventListeners(formsData = []) {
     .forEach((button, index) => {
       button.addEventListener("click", async () => {
         const authData = JSON.parse(sessionStorage.getItem(AUTH_KEY));
-        if (authData.type !== "manager") {
+        if (authData.is_manager !== "1") {
           alert("Вы не тренер!");
           return;
         }
@@ -100,7 +106,8 @@ function addApplyFormEventListeners(formsData = []) {
 */
 
 async function renderContent() {
-  const formsData = await fetchForms();
+  const authData = JSON.parse(sessionStorage.getItem(AUTH_KEY));
+  const formsData = await fetchForms(authData.id);
   renderForms(formsData);
   addApplyFormEventListeners(formsData);
 }

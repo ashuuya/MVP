@@ -21,7 +21,7 @@ export async function login(type) {
 
 export async function exit() {
   sessionStorage.removeItem(AUTH_KEY);
-  location.reload();
+  location.replace("/");
 }
 
 export function addLoginEventListener() {
