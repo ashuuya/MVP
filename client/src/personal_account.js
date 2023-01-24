@@ -35,25 +35,44 @@ async function applyForm(clubId, studentId) {
 
 function renderForms(formList = []) {
   const cardsContainerEl = document.querySelector(".forms-list-ul");
-  cardsContainerEl.innerHTML = "";
+  const authData = JSON.parse(sessionStorage.getItem(AUTH_KEY));
   for (const form of formList) {
-    cardsContainerEl.insertAdjacentHTML(
-      "beforeend",
-      `
-          <li class="cards-list-li">
-              <div class="card">
-                  <div class="card-body">
-                      <h5 class="card-title">${form.studname} просится в клуб</h5>
-                      <p class="card-text">
-                          ID студента: ${form.id_students} <br>
-                          Статус: ${form.status} 
-                      </p>
-                      <button class="btn btn-primary float-end">Принять заявку</button>
-                  </div>
+    if (authData.type == "manager") {
+      cardsContainerEl.insertAdjacentHTML(
+        "beforeend",
+        `
+      <li class="cards-list-li">
+          <div class="card">
+              <div class="card-body">
+                  <h5 class="card-title">${form.studname} просится в клуб</h5>
+                  <p class="card-text">
+                      ID студента: ${form.id_students} <br>
+                      Статус: ${form.status} 
+                  </p>
+                  <button class="btn btn-primary float-end">Принять заявку</button>
               </div>
-          </li>
-          `
-    );
+          </div>
+      </li>
+      `
+      );
+    } else if (form.id_students == authData.id) {
+      cardsContainerEl.insertAdjacentHTML(
+        "beforeend",
+        `
+      <li class="cards-list-li">
+           <div class="card">
+              <div class="card-body">
+                  <h5 class="card-title">${form.studname} просится в клуб</h5>
+                  <p class="card-text">
+                      ID студента: ${form.id_students} <br>
+                      Статус: ${form.status} 
+                  </p>
+              </div>
+          </div>
+      </li>
+      `
+      );
+    }
   }
 }
 
