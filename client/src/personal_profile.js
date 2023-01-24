@@ -45,7 +45,8 @@ function renderProfile(profileData) {
     cardsContainerEl.insertAdjacentHTML(
       "beforeend",
       `
-      <h5 class="card-header">Мой профиль</h5>
+      <div class="card-text">
+        <h5 class="card-header">Мой профиль</h5>
           <div class="card-body">
             <h5 class="card-title">${profileData.fio}</h5>
             <p class="card-text">E-mail: ${profileData.email}</p>
@@ -53,18 +54,27 @@ function renderProfile(profileData) {
             <p class="card-text">Курс: ${profileData.course}</p>
             <p class="card-text">Группа здоровья: ${profileData.healthgroup}</p>
           </div>
-    `
+      </div>
+      <div class="avatar">
+      <img class="png" src="../src/assets/person.png">   
+      </div> 
+      `
     );
   } else if (profileData.is_manager == "1") {
     cardsContainerEl.insertAdjacentHTML(
       "beforeend",
       `
-      <h5 class="card-header">Мой профиль</h5>
+        <div class="card-text">
+        <h5 class="card-header">Мой профиль</h5>
           <div class="card-body">
             <h5 class="card-title">${profileData.fio}</h5>
             <p class="card-text">E-mail: ${profileData.email}</p>
             <p class="card-text">Номер телефона: ${profileData.phone}</p>
           </div>
+        </div>
+        <div class="avatar">
+          <img class="png" src="../src/assets/person.png">   
+        </div> 
     `
     );
   }
