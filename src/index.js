@@ -36,6 +36,19 @@ app.get("/api/auth", async (req, res) => {
   }
 });
 
+app.get("/api/getinfo", async (req, res) => {
+  try {
+    console.log(req.query.id);
+    const connection = await stablishedConnection();
+    const [rows] = await connection.query(
+      `SELECT * FROM clubs WHERE id=${req.query.id}`
+    );
+    res.json(rows);
+  } catch (error) {
+    console.log("Ошибка " + error);
+  }
+});
+
 app.get("/api/clubs", async (req, res) => {
   try {
     const connection = await stablishedConnection();

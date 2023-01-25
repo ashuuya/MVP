@@ -88,7 +88,8 @@ function addApplyFormEventListeners(formsData = []) {
     .forEach((button, index) => {
       button.addEventListener("click", async () => {
         const authData = JSON.parse(sessionStorage.getItem(AUTH_KEY));
-        if (authData.is_manager !== "1") {
+        console.log(authData.is_manager);
+        if (authData.type !== "manager") {
           alert("Вы не тренер!");
           return;
         }

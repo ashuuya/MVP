@@ -64,9 +64,9 @@ function renderClubs(cardList = []) {
                     <p class="card-text">
                     <h2>Описание:</h2> ${card.description} <br>
                     <h3>Ищем:</h3> ${card.skills}
-                    <h4>${card.schedule}</h4>
                     </p>
-                    <button class="btn btn-primary float-end">Подать заявку</button>
+                    <a class="btn btn-outline-primary" href="aboutclub.html?clubId=${card.id}" role="button">Подробнее</a>
+                    <button class="applyclub-btn btn btn-primary float-end">Подать заявку</button>
                 </div>
             </div>
         </li>
@@ -77,7 +77,7 @@ function renderClubs(cardList = []) {
 
 function addApplyClubEventListeners(clubsData = []) {
   document
-    .querySelectorAll(".cards-list-li button")
+    .querySelectorAll(".cards-list-li .applyclub-btn")
     .forEach((button, index) => {
       button.addEventListener("click", () => {
         const authData = JSON.parse(sessionStorage.getItem(AUTH_KEY));
