@@ -41,6 +41,7 @@ async function applyForm(clubId, studentId) {
 
 function renderForms(formList = []) {
   const cardsContainerEl = document.querySelector(".forms-list-ul");
+  cardsContainerEl.innerHTML = "";
   const authData = JSON.parse(sessionStorage.getItem(AUTH_KEY));
   for (const form of formList) {
     if (authData.is_manager == "1") {
@@ -89,10 +90,6 @@ function addApplyFormEventListeners(formsData = []) {
       button.addEventListener("click", async () => {
         const authData = JSON.parse(sessionStorage.getItem(AUTH_KEY));
         console.log(authData.is_manager);
-        if (authData.type !== "manager") {
-          alert("Вы не тренер!");
-          return;
-        }
 
         await applyForm(formsData[index].id, 1);
         await renderContent();

@@ -81,10 +81,6 @@ function addApplyClubEventListeners(clubsData = []) {
     .forEach((button, index) => {
       button.addEventListener("click", () => {
         const authData = JSON.parse(sessionStorage.getItem(AUTH_KEY));
-        if (authData.is_manager !== "0") {
-          alert("Вы не студент!");
-          return;
-        }
         console.log(authData);
         applyClub(clubsData[index].id, authData.id);
         alert("Заявка подана!");
