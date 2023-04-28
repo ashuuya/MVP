@@ -63,7 +63,7 @@ function renderClubs(cardList = []) {
                     <h5 class="card-title"><h1>${card.title}</h1></h5>
                     <p class="card-text">
                     <h2>Описание:</h2> ${card.description} <br>
-                    <h3>Ищем:</h3> ${card.skills}
+                    <h3>Ищем людей, которые могут:</h3> ${card.skills}
                     </p>
                     <a class="btn btn-outline-primary" href="aboutclub.html?clubId=${card.id}" role="button">Подробнее</a>
                     <button class="applyclub-btn btn btn-primary float-end">Подать заявку</button>
